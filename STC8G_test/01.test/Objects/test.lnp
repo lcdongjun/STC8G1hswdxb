@@ -1,0 +1,20 @@
+".\Objects\STARTUP.obj",
+".\Objects\main.obj",
+".\Objects\isr.obj",
+".\Objects\STC8G_H_Delay.obj",
+".\Objects\STC8G_H_Compare.obj",
+".\Objects\STC8G_H_Compare_Isr.obj",
+".\Objects\STC8G_H_Exti.obj",
+".\Objects\STC8G_H_Exti_Isr.obj",
+".\Objects\STC8G_H_GPIO.obj",
+".\Objects\STC8G_H_GPIO_Isr.obj",
+".\Objects\STC8G_H_NVIC.obj",
+".\Objects\STC8G_H_Timer.obj",
+".\Objects\STC8G_H_Timer_Isr.obj",
+".\Objects\STC8G_H_UART.obj",
+".\Objects\STC8G_H_UART_Isr.obj",
+".\Objects\STC8G_PCA.obj",
+".\Objects\STC8G_PCA_Isr.obj" 
+TO ".\Objects\test" 
+PRINT(".\Listings\test.m51") RAMSIZE(256) 
+DISABLEWARNING (16) 

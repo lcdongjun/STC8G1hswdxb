@@ -1,0 +1,9 @@
+".\list\main.obj",
+".\list\STC8G_H_Delay.obj",
+".\list\STC8G_H_GPIO.obj",
+".\list\STC8G_H_NVIC.obj",
+".\list\STC8G_H_UART.obj",
+".\list\STC8G_H_UART_Isr.obj" 
+TO ".\list\UART1" 
+
+PRINT(".\list\UART1.map") REMOVEUNUSED 

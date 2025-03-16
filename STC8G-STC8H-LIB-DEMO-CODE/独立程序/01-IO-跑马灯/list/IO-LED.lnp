@@ -1,0 +1,5 @@
+".\list\main.obj",
+".\list\STC8G_H_Delay.obj",
+".\list\STC8G_H_GPIO.obj" 
+TO ".\list\IO-LED" 
+PRINT(".\list\IO-LED.m51") RAMSIZE(256) 
