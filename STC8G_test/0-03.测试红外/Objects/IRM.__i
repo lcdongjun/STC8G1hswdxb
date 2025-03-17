@@ -1,0 +1,1 @@
+"bsp\1838\IRM.c" OPTIMIZE (8,SPEED) BROWSE INCDIR(.\main;.\system;.\bsp\1838) DEBUG OBJECTEXTEND PRINT(.\Listings\IRM.lst) TABS (2) OBJECT(.\Objects\IRM.obj)
