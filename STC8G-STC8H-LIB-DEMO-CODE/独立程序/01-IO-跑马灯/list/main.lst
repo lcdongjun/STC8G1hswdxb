@@ -1,10 +1,10 @@
-C51 COMPILER V9.60.7.0   MAIN                                                              03/14/2025 21:32:36 PAGE 1   
+C51 COMPILER V9.54   MAIN                                                                  03/17/2025 19:19:21 PAGE 1   
 
 
-C51 COMPILER V9.60.7.0, COMPILATION OF MODULE MAIN
+C51 COMPILER V9.54, COMPILATION OF MODULE MAIN
 OBJECT MODULE PLACED IN .\list\main.obj
-COMPILER INVOKED BY: D:\mcu\Keil_v5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\list\main
-                    -.lst) TABS(2) OBJECT(.\list\main.obj)
+COMPILER INVOKED BY: D:\keil5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\list\main.lst) 
+                    -TABS(2) OBJECT(.\list\main.obj)
 
 line level    source
 
@@ -62,7 +62,7 @@ line level    source
              -OUT_PP
   51   1        GPIO_Inilize(GPIO_P6,&GPIO_InitStructure);  //初始化
   52   1      }
-C51 COMPILER V9.60.7.0   MAIN                                                              03/14/2025 21:32:36 PAGE 2   
+C51 COMPILER V9.54   MAIN                                                                  03/17/2025 19:19:21 PAGE 2   
 
   53          
   54          /******************** 主函数 **************************/
@@ -70,29 +70,30 @@ line level    source
   56          {
   57   1        EAXSFR();   /* 扩展寄存器访问使能 */
   58   1        GPIO_config();
-  59   1        P40 = 0;    //LED Power On
-  60   1        ledIndex = 0;
-  61   1        
-  62   1        while(1)
-  63   1        {
-  64   2          P6 = ~ledNum[ledIndex]; //输出低驱动
-  65   2          ledIndex++;
-  66   2          if(ledIndex > 7)
-  67   2          {
-  68   3            ledIndex = 0;
-  69   3          }
-  70   2          delay_ms(250);
+  59   1        P54 = 0;    //LED Power On
+  60   1        P55 = 1;
+  61   1        ledIndex = 0;
+  62   1        
+  63   1        while(1)
+  64   1        {
+  65   2          P6 = ~ledNum[ledIndex]; //输出低驱动
+  66   2          ledIndex++;
+  67   2          if(ledIndex > 7)
+  68   2          {
+  69   3            ledIndex = 0;
+  70   3          }
   71   2          delay_ms(250);
-  72   2        }
-  73   1      }
-  74          
+  72   2          delay_ms(250);
+  73   2        }
+  74   1      }
   75          
   76          
   77          
+  78          
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =     76    ----
+   CODE SIZE        =     78    ----
    CONSTANT SIZE    =      8    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----

@@ -49,10 +49,10 @@
 void	GPIO_config(void)
 {
 	GPIO_InitTypeDef	GPIO_InitStructure;		//结构定义
-
-	GPIO_InitStructure.Pin  = GPIO_Pin_0 | GPIO_Pin_1;		//指定要初始化的IO, GPIO_Pin_0 ~ GPIO_Pin_7
-	GPIO_InitStructure.Mode = GPIO_PullUp;	//指定IO的输入或输出方式,GPIO_PullUp,GPIO_HighZ,GPIO_OUT_OD,GPIO_OUT_PP
-	GPIO_Inilize(GPIO_P3,&GPIO_InitStructure);	//初始化
+	
+	GPIO_InitStructure.Pin  = GPIO_Pin_4 | GPIO_Pin_5;		//指定要初始化的IO, GPIO_Pin_0 ~ GPIO_Pin_7
+	GPIO_InitStructure.Mode = GPIO_OUT_PP;	//指定IO的输入或输出方式,GPIO_PullUp,GPIO_HighZ,GPIO_OUT_OD,GPIO_OUT_PP
+	GPIO_Inilize(GPIO_P5,&GPIO_InitStructure);	//初始化
 }
 
 /***************  串口初始化函数 *****************/
@@ -83,22 +83,17 @@ void main(void)
 	EA = 1;
 
 	printf("STC8H8K64U UART1 Test Programme!\r\n");	//UART1发送一个字符串
-//	PrintString1("STC8H8K64U UART1 Test Programme!\r\n");	//UART1发送一个字符串
-
+	P54=1;
+	P55=0;
 	while (1)
 	{
-		delay_ms(1);
-		if(COM1.RX_TimeOut > 0)		//超时计数
-		{
-			if(--COM1.RX_TimeOut == 0)
-			{
-				if(COM1.RX_Cnt > 0)
-				{
-					for(i=0; i<COM1.RX_Cnt; i++)	TX1_write2buff(RX1_Buffer[i]);	//收到的数据原样返回
-				}
-				COM1.RX_Cnt = 0;
-			}
-		}
+		P54 =~P54;
+		P55 =~P55;
+		delay_ms(250);
+		delay_ms(250);
+		delay_ms(250);
+		delay_ms(250);
+		printf("System Run!\r\n");
 	}
 }
 

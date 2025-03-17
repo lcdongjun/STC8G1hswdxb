@@ -1,10 +1,10 @@
-C51 COMPILER V9.60.7.0   MAIN                                                              03/14/2025 21:44:07 PAGE 1   
+C51 COMPILER V9.54   MAIN                                                                  03/17/2025 19:42:33 PAGE 1   
 
 
-C51 COMPILER V9.60.7.0, COMPILATION OF MODULE MAIN
+C51 COMPILER V9.54, COMPILATION OF MODULE MAIN
 OBJECT MODULE PLACED IN .\list\main.obj
-COMPILER INVOKED BY: D:\mcu\Keil_v5\C51\BIN\C51.EXE main.c OMF2 OPTIMIZE(8,SPEED) BROWSE DEBUG PRINT(.\list\main.lst) TA
-                    -BS(2) OBJECT(.\list\main.obj)
+COMPILER INVOKED BY: D:\keil5\C51\BIN\C51.EXE main.c OMF2 OPTIMIZE(8,SPEED) BROWSE DEBUG PRINT(.\list\main.lst) TABS(2) 
+                    -OBJECT(.\list\main.obj)
 
 line level    source
 
@@ -59,13 +59,13 @@ line level    source
   49          void  GPIO_config(void)
   50          {
   51   1        GPIO_InitTypeDef  GPIO_InitStructure;   //结构定义
-  52   1      
-  53   1        GPIO_InitStructure.Pin  = GPIO_Pin_0 | GPIO_Pin_1;    //指定要初始化的IO, GPIO_Pin_0 ~ GPIO_Pin_7
-  54   1        GPIO_InitStructure.Mode = GPIO_PullUp;  //指定IO的输入或输出方式,GPIO_PullUp,GPIO_HighZ,GPIO_OUT_OD,GPIO_O
-C51 COMPILER V9.60.7.0   MAIN                                                              03/14/2025 21:44:07 PAGE 2   
+  52   1        
+  53   1        GPIO_InitStructure.Pin  = GPIO_Pin_4 | GPIO_Pin_5;    //指定要初始化的IO, GPIO_Pin_0 ~ GPIO_Pin_7
+  54   1        GPIO_InitStructure.Mode = GPIO_OUT_PP;  //指定IO的输入或输出方式,GPIO_PullUp,GPIO_HighZ,GPIO_OUT_OD,GPIO_O
+C51 COMPILER V9.54   MAIN                                                                  03/17/2025 19:42:33 PAGE 2   
 
              -UT_PP
-  55   1        GPIO_Inilize(GPIO_P3,&GPIO_InitStructure);  //初始化
+  55   1        GPIO_Inilize(GPIO_P5,&GPIO_InitStructure);  //初始化
   56   1      }
   57          
   58          /***************  串口初始化函数 *****************/
@@ -99,39 +99,35 @@ line level    source
   83   1        EA = 1;
   84   1      
   85   1        printf("STC8H8K64U UART1 Test Programme!\r\n"); //UART1发送一个字符串
-  86   1      //  PrintString1("STC8H8K64U UART1 Test Programme!\r\n"); //UART1发送一个字符串
-  87   1      
+  86   1        P54=1;
+  87   1        P55=0;
   88   1        while (1)
   89   1        {
-  90   2          delay_ms(1);
-  91   2          if(COM1.RX_TimeOut > 0)   //超时计数
-  92   2          {
-  93   3            if(--COM1.RX_TimeOut == 0)
-  94   3            {
-  95   4              if(COM1.RX_Cnt > 0)
-  96   4              {
-  97   5                for(i=0; i<COM1.RX_Cnt; i++)  TX1_write2buff(RX1_Buffer[i]);  //收到的数据原样返回
-  98   5              }
-  99   4              COM1.RX_Cnt = 0;
- 100   4            }
- 101   3          }
- 102   2        }
- 103   1      }
- 104          
- 105          
- 106          
+  90   2          P54 =~P54;
+  91   2          P55 =~P55;
+  92   2          delay_ms(250);
+  93   2          delay_ms(250);
+  94   2          delay_ms(250);
+  95   2          delay_ms(250);
+  96   2          printf("System Run!\r\n");
+  97   2        }
+  98   1      }
+*** WARNING C280 IN LINE 78 OF main.c: 'i': unreferenced local variable
+  99          
+ 100          
+ 101          
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    138    ----
-   CONSTANT SIZE    =     35    ----
+   CODE SIZE        =    121    ----
+   CONSTANT SIZE    =     49    ----
    XDATA SIZE       =   ----    ----
-C51 COMPILER V9.60.7.0   MAIN                                                              03/14/2025 21:44:07 PAGE 3   
-
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----      12
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
+C51 COMPILER V9.54   MAIN                                                                  03/17/2025 19:42:33 PAGE 3   
+
    EDATA SIZE       =   ----    ----
    HDATA SIZE       =   ----    ----
    XDATA CONST SIZE =   ----    ----
@@ -139,4 +135,4 @@ MODULE INFORMATION:   STATIC OVERLAYABLE
 END OF MODULE INFORMATION.
 
 
-C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)
