@@ -56,7 +56,8 @@ void main(void)
 {
 	EAXSFR();		/* 扩展寄存器访问使能 */
 	GPIO_config();
-	P40 = 0;		//LED Power On
+	P54 = 0;		//LED Power On
+	P55 = 1;
 	ledIndex = 0;
 	
 	while(1)
