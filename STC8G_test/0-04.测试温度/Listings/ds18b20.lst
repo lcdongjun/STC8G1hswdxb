@@ -1,0 +1,82 @@
+C51 COMPILER V9.60.7.0   DS18B20                                                           03/18/2025 13:52:08 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE DS18B20
+OBJECT MODULE PLACED IN .\Objects\ds18b20.obj
+COMPILER INVOKED BY: D:\mcu\Keil_v5\C51\BIN\C51.EXE bsp\ds18b20\ds18b20.c OPTIMIZE(8,SPEED) BROWSE INCDIR(.\main;.\syste
+                    -m;.\bsp\1838;.\bsp\ds18b20) DEBUG OBJECTEXTEND PRINT(.\Listings\ds18b20.lst) TABS(2) OBJECT(.\Objects\ds18b20.obj)
+
+line level    source
+
+   1          #include "ds18b20.h"
+   2          #include "uart.h"
+   3          
+   4          bit DS18B20_Init() {
+   5   1          bit presence;
+   6   1          DS18B20_PIN = 0;
+   7   1          Delay_us(480);
+   8   1          DS18B20_PIN = 1;
+   9   1          Delay_us(70);
+  10   1          presence = DS18B20_PIN;
+  11   1          Delay_us(410);
+  12   1          return !presence;
+  13   1      }
+  14          
+  15          static void DS18B20_WriteByte(unsigned char dat) {
+  16   1          unsigned char i;
+  17   1          for (i = 0; i < 8; i++) {
+  18   2              DS18B20_PIN = 0;
+  19   2              Delay_us(2);
+  20   2              DS18B20_PIN = dat & 0x01;
+  21   2              Delay_us(60);
+  22   2              DS18B20_PIN = 1;
+  23   2              dat >>= 1;
+  24   2          }
+  25   1      }
+  26          
+  27          static unsigned char DS18B20_ReadByte() {
+  28   1          unsigned char i, dat = 0;
+  29   1          for (i = 0; i < 8; i++) {
+  30   2              DS18B20_PIN = 0;
+  31   2              Delay_us(2);
+  32   2              DS18B20_PIN = 1;
+  33   2              Delay_us(12);
+  34   2              dat >>= 1;
+  35   2              if (DS18B20_PIN) dat |= 0x80;
+  36   2              Delay_us(50);
+  37   2          }
+  38   1          return dat;
+  39   1      }
+  40          
+  41          float DS18B20_GetTemp() {
+  42   1          unsigned char tempL, tempH;
+  43   1          short temp;
+  44   1          if (!DS18B20_Init()) return -1000;
+  45   1          DS18B20_WriteByte(0xCC);
+  46   1          DS18B20_WriteByte(0x44);
+  47   1          Delay_ms(750);
+  48   1          if (!DS18B20_Init()) return -1000;
+  49   1          DS18B20_WriteByte(0xCC);
+  50   1          DS18B20_WriteByte(0xBE);
+  51   1          tempL = DS18B20_ReadByte();
+  52   1          tempH = DS18B20_ReadByte();
+  53   1          temp = ((short)tempH << 8) | tempL;
+  54   1          return temp * 0.0625;
+C51 COMPILER V9.60.7.0   DS18B20                                                           03/18/2025 13:52:08 PAGE 2   
+
+  55   1      }
+  56          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    209    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       5
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----       1
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

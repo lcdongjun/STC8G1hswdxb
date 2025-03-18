@@ -1,0 +1,1 @@
+"system\delay.c" OPTIMIZE (8,SPEED) BROWSE INCDIR(.\main;.\system;.\bsp\1838;.\bsp\ds18b20) DEBUG OBJECTEXTEND PRINT(.\Listings\delay.lst) TABS (2) OBJECT(.\Objects\delay.obj)

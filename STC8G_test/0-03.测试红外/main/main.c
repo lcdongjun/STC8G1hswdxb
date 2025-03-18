@@ -34,10 +34,13 @@ void main(void)
 		P55 = 1;
     while (1)
     {
-        if (ir_flag) {
+//			printf("System Run! \r\n");
+				if (ir_flag) {
             ir_flag = 0;
-						printf("irm\r\n");
-            UartSendStr(&ir_data[2]);
+            // 处理 ir_data[4] 中的数据，例如解码按键值
+					printf("ir_data: %x",ir_data[2]);
         }
     }
 }
+
+

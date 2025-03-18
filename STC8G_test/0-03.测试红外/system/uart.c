@@ -16,7 +16,7 @@ void UartInit()
 	TL1 = BRT; 
 	TH1 = BRT >> 8; 
 	TR1 = 1; 
-	AUXR = 0x40; 
+	AUXR |= (1<<6);
 	wptr = 0x00; 
 	rptr = 0x00; 
 	busy = 0; 
