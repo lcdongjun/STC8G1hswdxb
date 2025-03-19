@@ -16,8 +16,6 @@ void main(void)
 		P_SW2 |= 0x80;
     System_Init(); // 初始化系统
 		printf("System Run! \r\n");
-		P54 = 0;
-		P55 = 0;
 		Restore_Settings();
     while (1)
     {
@@ -31,10 +29,10 @@ void main(void)
 
 				// 处理温度控制
 				if (temp_flag) {
-						if (temp >= 16) {
+						if (temp >= 45) {
 								P55 = 1;
 								P54 = 0;
-						} else if (temp >= 15) {
+						} else if (temp >= 55) {
 								P55 = 0;
 								P54 = 1;
 						} else {
@@ -63,10 +61,17 @@ void main(void)
 										P55 = ~P55;
 										Save_Settings();
 										break;
+								case 0x40:
+										printf("Resuming temperature control.\n");
+										P54 = 0;
+										P55 = 0;
+										temp_flag = 1;
+										Save_Settings();
+										break;
 
 								default:
 										printf("Unknown IR command, resuming temperature control.\n");
-										temp_flag = 1;
+//										temp_flag = 1;
 										break;
 						}
 						
@@ -84,7 +89,8 @@ void System_Init(void)
     
     P5M1 &= ~((1 << 4) | (1 << 5)); // 设置为推挽输出
     P5M0 |= ((1 << 4) | (1 << 5));
-	
+		P54 = 0;
+		P55 = 0;
 		UartInit();
 		irm_init();
 		DS18B20_Init();
