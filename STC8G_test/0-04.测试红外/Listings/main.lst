@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.7.0   MAIN                                                              03/18/2025 23:52:20 PAGE 1   
+C51 COMPILER V9.60.7.0   MAIN                                                              03/19/2025 10:07:10 PAGE 1   
 
 
 C51 COMPILER V9.60.7.0, COMPILATION OF MODULE MAIN
@@ -24,46 +24,83 @@ line level    source
   14   1        
   15   1          UartInit();
   16   1          irm_init();
-  17   1          EA = 1;
-  18   1      //    DS18B20_Init();
+  17   1          DS18B20_Init();
+  18   1          EA = 1;
   19   1      }
   20          
   21          void main(void)
   22          {
-  23   1      //    P_SW2 |= 0x80;
-  24   1        
+  23   1          unsigned char temp_flag = 1; 
+  24   1          P_SW2 |= 0x80;
   25   1          System_Init(); // 初始化系统
   26   1          printf("System Run! \r\n");
   27   1          P54 = 0;
   28   1          P55 = 0;
   29   1          while (1)
   30   1          {
-  31   2      //      float temp = DS18B20_GetTemp();
-  32   2      //      printf("temp = %.3f\r\n",temp);
-  33   2      //      Delay_ms(1000);
-  34   2      //      printf("System Run! \r\n");
-  35   2              if(irok)                        //如果接收好了进行红外处理
-  36   2              {
-  37   3                Ircordpro();
-  38   3                irok=0;
-  39   3              }
-  40   2              if(irpro_ok)                   //如果处理好后进行工作处理，如按对应的按键后显示对应的数字等
-  41   2              {
-  42   3                Ir_work();
-  43   3              }
-  44   2          }
-  45   1      }
+  31   2              float temp = DS18B20_GetTemp();
+  32   2              printf("temp = %.3f\r\n", temp);
+  33   2      
+  34   2              if (irok) {  
+  35   3                  Ircordpro();
+  36   3                  irok = 0;
+  37   3              }
+  38   2      
+  39   2              // 处理温度控制
+  40   2              if (temp_flag) {
+  41   3                  if (temp >= 16) {
+  42   4                      P55 = 1;
+  43   4                      P54 = 0;
+  44   4                  } else if (temp >= 15) {
+  45   4                      P55 = 0;
+  46   4                      P54 = 1;
+  47   4                  } else {
+  48   4                      P55 = 0;
+  49   4                      P54 = 0;
+  50   4                  }
+  51   3              }
+  52   2      
+  53   2              // 处理红外控制
+  54   2              if (irpro_ok) {
+C51 COMPILER V9.60.7.0   MAIN                                                              03/19/2025 10:07:10 PAGE 2   
+
+  55   3                  printf("IR received: 0x%x\n", IRcord[2]);
+  56   3      
+  57   3                  switch (IRcord[2]) {
+  58   4                      case 0x44:
+  59   4                          printf("Toggling P54\n");
+  60   4                          temp_flag = 0;
+  61   4                          P55 = 0;
+  62   4                          P54 = ~P54;
+  63   4                          break;
+  64   4      
+  65   4                      case 0x43:
+  66   4                          printf("Toggling P55\n");
+  67   4                          temp_flag = 0;
+  68   4                          P54 = 0;
+  69   4                          P55 = ~P55;
+  70   4                          break;
+  71   4      
+  72   4                      default:
+  73   4                          printf("Unknown IR command, resuming temperature control.\n");
+  74   4                          temp_flag = 1;
+  75   4                          break;
+  76   4                  }
+  77   3                  
+  78   3                  irpro_ok = 0;
+  79   3              }
+  80   2              
+  81   2          }
+  82   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =     53    ----
-   CONSTANT SIZE    =     15    ----
+   CODE SIZE        =    226    ----
+   CONSTANT SIZE    =    127    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =   ----    ----
+   DATA SIZE        =   ----       5
    IDATA SIZE       =   ----    ----
-C51 COMPILER V9.60.7.0   MAIN                                                              03/18/2025 23:52:20 PAGE 2   
-
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.
 

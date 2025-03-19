@@ -1,0 +1,1 @@
+"system\uart.c" OPTIMIZE (8,SPEED) BROWSE INCDIR(.\main;.\system;.\bsp\1838;.\bsp\ds18b20;.\bsp\eeprom) DEBUG OBJECTEXTEND PRINT(.\Listings\uart.lst) TABS (2) OBJECT(.\Objects\uart.obj)

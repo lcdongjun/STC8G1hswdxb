@@ -14,32 +14,69 @@ void System_Init(void)
 	
 		UartInit();
 		irm_init();
+		DS18B20_Init();
 		EA = 1;
-//		DS18B20_Init();
 }
 
 void main(void)
 {
-//		P_SW2 |= 0x80;
-	
+		unsigned char temp_flag = 1; 
+		P_SW2 |= 0x80;
     System_Init(); // 初始化系统
 		printf("System Run! \r\n");
 		P54 = 0;
 		P55 = 0;
     while (1)
     {
-//			float temp = DS18B20_GetTemp();
-//			printf("temp = %.3f\r\n",temp);
-//			Delay_ms(1000);
-//			printf("System Run! \r\n");
-				if(irok)                        //如果接收好了进行红外处理
-				{
-					Ircordpro();
-					irok=0;
+				float temp = DS18B20_GetTemp();
+				printf("temp = %.3f\r\n", temp);
+
+				if (irok) {  
+						Ircordpro();
+						irok = 0;
 				}
-				if(irpro_ok)                   //如果处理好后进行工作处理，如按对应的按键后显示对应的数字等
-				{
-					Ir_work();
+
+				// 处理温度控制
+				if (temp_flag) {
+						if (temp >= 16) {
+								P55 = 1;
+								P54 = 0;
+						} else if (temp >= 15) {
+								P55 = 0;
+								P54 = 1;
+						} else {
+								P55 = 0;
+								P54 = 0;
+						}
 				}
+
+				// 处理红外控制
+				if (irpro_ok) {
+						printf("IR received: 0x%x\n", IRcord[2]);
+
+						switch (IRcord[2]) {
+								case 0x44:
+										printf("Toggling P54\n");
+										temp_flag = 0;
+										P55 = 0;
+										P54 = ~P54;
+										break;
+
+								case 0x43:
+										printf("Toggling P55\n");
+										temp_flag = 0;
+										P54 = 0;
+										P55 = ~P55;
+										break;
+
+								default:
+										printf("Unknown IR command, resuming temperature control.\n");
+										temp_flag = 1;
+										break;
+						}
+						
+						irpro_ok = 0;
+				}
+				
     }
 }

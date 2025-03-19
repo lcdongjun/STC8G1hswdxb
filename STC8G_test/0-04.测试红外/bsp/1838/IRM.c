@@ -8,13 +8,13 @@
 	
 unsigned char  irtime;
 bit irpro_ok,irok;
-unsigned char IRcord[4];
+unsigned int IRcord[4];
 unsigned char irdata[33];
 
 
 void Ir_work(void)//红外键值散转程序
 {
-		printf("irm date: 0x%x",IRcord[2]);
+		
 		if(IRcord[2] == 0x700)
 		{
 			printf("P54 toggled\n");
@@ -24,6 +24,10 @@ void Ir_work(void)//红外键值散转程序
 		{
 			printf("P55 toggled\n");
 			P55=~P55;
+		}
+		else
+		{
+			printf("irm date: 0x%x",IRcord[2]);
 		}
 		irpro_ok=0;
 }
@@ -37,7 +41,7 @@ void Ircordpro(void)//红外码值处理函数
 		for(j=1;j<=8;j++) //处理1个字节8位
 		{
 			cord=irdata[k];
-			if (cord > THRESHOLD)//大于某值为1，这个和晶振有绝对关系，这里使用12M计算，此值可以有一定误差
+			if (cord > THRESHOLD)
 			value=value|0x80;
 			if(j<8)
 			{
@@ -61,9 +65,9 @@ void Timer0_Init(void)//定时器0初始化
 }
 void INT0_Init(void)
 {
- IT0 = 1;   //指定外部中断0下降沿触发，INT0 (P3.2)
- EX0 = 1;   //使能外部中断
- EA = 1;    //开总中断
+	IT0 = 1;   //指定外部中断0下降沿触发，INT0 (P3.2)
+	EX0 = 1;   //使能外部中断
+	EA = 1;    //开总中断
 }
 void irm_init(void)
 {
